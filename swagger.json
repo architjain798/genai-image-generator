@@ -1,19 +1,128 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "OpenAI Image API",
-      "version": "1.0.0"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "OpenAI Image API",
+    "version": "1.0.0",
+    "description": "API for generating, editing, and varying images with OpenAI."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health Check",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     },
-    "paths": {
-      "/api/health": {
-        "get": {
-          "summary": "Health Check",
-          "responses": {
-            "200": {
-              "description": "OK"
+    "/api/generate-image": {
+      "post": {
+        "summary": "Generate image from prompt",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string" }
+                },
+                "required": ["prompt"]
+              }
             }
           }
+        },
+        "responses": {
+          "201": {
+            "description": "Image generated"
+          },
+          "400": { "description": "Invalid request" }
+        }
+      }
+    },
+    "/api/edit-image": {
+      "post": {
+        "summary": "Edit an uploaded image using a prompt",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string" },
+                  "image": { "type": "string", "format": "binary" }
+                },
+                "required": ["prompt", "image"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Image edited"
+          },
+          "400": { "description": "Invalid request" }
+        }
+      }
+    },
+    "/api/generate-variations": {
+      "post": {
+        "summary": "Generate image variations from an uploaded image",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": { "type": "string", "format": "binary" }
+                },
+                "required": ["image"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Variations generated"
+          },
+          "400": { "description": "Invalid request" }
+        }
+      }
+    },
+    "/api/history": {
+      "get": {
+        "summary": "Get last 20 image operations",
+        "responses": {
+          "200": {
+            "description": "A list of recent operations"
+          }
+        }
+      }
+    },
+    "/api/image/{id}": {
+      "get": {
+        "summary": "Get operation details by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Operation details" },
+          "404": { "description": "Not found" }
         }
       }
     }
   }
+}
