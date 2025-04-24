@@ -23,7 +23,7 @@
     },
     "/api/generate-image": {
       "post": {
-        "summary": "Generate image from prompt",
+        "summary": "Generate image from prompt (with options)",
         "requestBody": {
           "required": true,
           "content": {
@@ -31,7 +31,29 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "prompt": { "type": "string" }
+                  "prompt": { "type": "string" },
+                  "n": { "type": "integer", "default": 1 },
+                  "size": {
+                    "type": "string",
+                    "default": "1024x1024",
+                    "enum": [
+                      "256x256",
+                      "512x512",
+                      "1024x1024",
+                      "1792x1024",
+                      "1024x1792"
+                    ]
+                  },
+                  "model": {
+                    "type": "string",
+                    "default": "dall-e-3",
+                    "enum": ["dall-e-2", "dall-e-3"]
+                  },
+                  "quality": {
+                    "type": "string",
+                    "default": "standard",
+                    "enum": ["standard", "hd"]
+                  }
                 },
                 "required": ["prompt"]
               }
@@ -39,10 +61,7 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Image generated"
-          },
-          "400": { "description": "Invalid request" }
+          "201": { "description": "Image generated" }
         }
       }
     },

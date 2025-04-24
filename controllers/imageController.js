@@ -29,28 +29,33 @@ exports.getHealth = (req, res) => {
 };
 
 /**
- * Generate image from a text prompt, download/save image, return permanent link.
+ * Generate image from a text prompt, with options for size, n, model, quality, etc.
  */
 exports.generateImage = async (req, res) => {
-  const prompt = req.body.prompt;
+  const {
+    prompt,
+    n = 1,
+    size = "1024x1024",
+    model = "dall-e-3",
+    quality = "standard"
+  } = req.body;
   if (!prompt) return res.status(400).json({ error: "Prompt is required" });
 
   try {
-    console.log(`[generate-image] Generating image for prompt: "${prompt}"`);
-    const url = await generateImageFromPrompt(prompt);
+    console.log(`[generate-image] Generating image. Prompt: "${prompt}", n: ${n}, size: ${size}, model: ${model}, quality: ${quality}`);
 
-    // Download and save image
+    // --- Pass options to the OpenAI service ---
+    const url = await generateImageFromPrompt(prompt, { n, size, model, quality });
+
+    // Download/save as before
     const imgResp = await axios.get(url, { responseType: "arraybuffer" });
     const timestamp = Date.now();
-    const safePrompt = prompt.replace(/[^a-z0-9]/gi, "_").substring(0, 32); // sanitize filename
+    const safePrompt = prompt.replace(/[^a-z0-9]/gi, "_").substring(0, 32);
     const filename = `image_${safePrompt}_${timestamp}.png`;
     const filepath = path.join(SAVED_DIR, filename);
     fs.writeFileSync(filepath, imgResp.data);
-
-    // Serve statically as /saved/filename via app.js
     const savedUrl = `/saved/${filename}`;
 
-    // Log both OpenAI & local URLs in the record
     const record = {
       id: history.length + 1,
       type: "generate",
@@ -58,6 +63,7 @@ exports.generateImage = async (req, res) => {
       openai_url: url,
       saved_url: savedUrl,
       saved_path: filepath,
+      params: { n, size, model, quality },
       createdAt: new Date().toISOString(),
     };
     history.push(record);

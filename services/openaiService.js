@@ -15,15 +15,19 @@ const openai = new OpenAI({
  * @param {string} prompt
  * @returns {Promise<string>} image URL
  */
-exports.generateImageFromPrompt = async (prompt) => {
-    // Use OpenAI's image generation API (DALL·E model)
+exports.generateImageFromPrompt = async (prompt, options = {}) => {
+    const { n = 1, size = "1024x1024", model = "dall-e-3", quality = "standard" } = options;
+    // DALL·E 3 ignores n > 1, but for generality keep it
     const response = await openai.images.generate({
-        prompt,
-        n: 1,
-        size: '1024x1024'
+      prompt,
+      n,
+      size,
+      model,
+      quality
     });
-    return response.data[0].url;
-};
+    // For DALL·E 3, always one image; for DALL·E 2, n images.
+    return (response.data[0] || response.data).url;
+  };
 
 /**
  * Edit an uploaded image with a prompt

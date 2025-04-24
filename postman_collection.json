@@ -1,67 +1,113 @@
 {
     "info": {
-        "name": "OpenAI Image API",
-        "_postman_id": "9324e5b9-0e3f-45d1-bf1d-3a1b8c78d296",
-        "description": "OpenAI Images API Sample Collection",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+      "name": "OpenAI Image API",
+      "_postman_id": "9e7e699e-2507-4a22-9f56-4b386f85db11",
+      "description": "OpenAI Images API Sample Collection with Advanced Options",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
-        {
-            "name": "Health Check",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": { "raw": "http://localhost:3000/api/health", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "health"] }
-            }
-        },
-        {
-            "name": "Generate Image",
-            "request": {
-                "method": "POST",
-                "header": [{ "key": "Content-Type", "value": "application/json" }],
-                "url": { "raw": "http://localhost:3000/api/generate-image", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "generate-image"] },
-                "body": {
-                    "mode": "raw",
-                    "raw": "{\"prompt\": \"a cute robot reading a book\"}"
-                }
-            }
-        },
-        {
-            "name": "Edit Image",
-            "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                    "mode": "formdata",
-                    "formdata": [
-                        { "key": "image", "type": "file", "src": "" },
-                        { "key": "prompt", "type": "text", "value": "add a wizard hat" }
-                    ]
-                },
-                "url": { "raw": "http://localhost:3000/api/edit-image", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "edit-image"] }
-            }
-        },
-        {
-            "name": "Generate Variations",
-            "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                    "mode": "formdata",
-                    "formdata": [
-                        { "key": "image", "type": "file", "src": "" }
-                    ]
-                },
-                "url": { "raw": "http://localhost:3000/api/generate-variations", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "generate-variations"] }
-            }
-        },
-        {
-            "name": "History",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": { "raw": "http://localhost:3000/api/history", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "history"] }
-            }
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/api/health",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "health"]
+          }
         }
+      },
+      {
+        "name": "Generate Image (with options)",
+        "request": {
+          "method": "POST",
+          "header": [
+            { "key": "Content-Type", "value": "application/json" }
+          ],
+          "url": {
+            "raw": "http://localhost:3000/api/generate-image",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "generate-image"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"prompt\": \"a futuristic city skyline at sunset\",\n  \"model\": \"dall-e-3\",\n  \"n\": 1,\n  \"size\": \"1024x1024\",\n  \"quality\": \"hd\"\n}"
+          }
+        }
+      },
+      {
+        "name": "Edit Image",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              { "key": "image", "type": "file", "src": "" },
+              { "key": "prompt", "type": "text", "value": "add a wizard hat" }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:3000/api/edit-image",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "edit-image"]
+          }
+        }
+      },
+      {
+        "name": "Generate Variations",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "formdata",
+            "formdata": [
+              { "key": "image", "type": "file", "src": "" }
+            ]
+          },
+          "url": {
+            "raw": "http://localhost:3000/api/generate-variations",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "generate-variations"]
+          }
+        }
+      },
+      {
+        "name": "History",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/api/history",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "history"]
+          }
+        }
+      },
+      {
+        "name": "Get Image by ID",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/api/image/1",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "image", "1"]
+          }
+        }
+      }
     ]
-}
+  }
