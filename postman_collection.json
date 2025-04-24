@@ -1,0 +1,67 @@
+{
+    "info": {
+        "name": "OpenAI Image API",
+        "_postman_id": "9324e5b9-0e3f-45d1-bf1d-3a1b8c78d296",
+        "description": "OpenAI Images API Sample Collection",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": { "raw": "http://localhost:3000/api/health", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "health"] }
+            }
+        },
+        {
+            "name": "Generate Image",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "url": { "raw": "http://localhost:3000/api/generate-image", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "generate-image"] },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"prompt\": \"a cute robot reading a book\"}"
+                }
+            }
+        },
+        {
+            "name": "Edit Image",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        { "key": "image", "type": "file", "src": "" },
+                        { "key": "prompt", "type": "text", "value": "add a wizard hat" }
+                    ]
+                },
+                "url": { "raw": "http://localhost:3000/api/edit-image", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "edit-image"] }
+            }
+        },
+        {
+            "name": "Generate Variations",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        { "key": "image", "type": "file", "src": "" }
+                    ]
+                },
+                "url": { "raw": "http://localhost:3000/api/generate-variations", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "generate-variations"] }
+            }
+        },
+        {
+            "name": "History",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": { "raw": "http://localhost:3000/api/history", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api", "history"] }
+            }
+        }
+    ]
+}
